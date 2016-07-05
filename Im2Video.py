@@ -35,12 +35,10 @@ if __name__ == '__main__':
     pHour    = int(timePath.split('/')[-1]) - 100
     pTimePath= timePath.split('/')[0] + '/' + str(pHour)
     
-    # TODO: handle checking the previous hour
-
     # find latest images - not using os.walk to avoid walking all time directories
     for room in os.listdir(inDir):
         for cam in os.listdir(inDir + '/' + room):
-            for tp in [timePath, pTimePath]:
+            for tp in [timePath, pTimePath]: 
                 # determine input path
                 subPath = room + '/' + cam + '/' + tp
                 inPath = inDir + '/' + subPath 
@@ -51,10 +49,10 @@ if __name__ == '__main__':
                 # move chunk for processing to tmp folder
                 tmpPath = tmpDir + '/' + room + '/' + cam
                 if not os.path.exists(tmpPath):
-                    os.makedirs(tmpPath)
+    	            os.system('mkdir -p {0}'.format(tmpPath))
                 else:
                     os.system('rm -f ' + tmpPath + '/*')
-                if glob.iglob(inPath + '/*.jpg'): 
+                if glob.glob(inPath + '/*.jpg'): 
                     os.system('mv ' + inPath + '/*.jpg ' + tmpPath)
                 else:
                     continue
@@ -64,7 +62,7 @@ if __name__ == '__main__':
                 videoFileName = strftime("%H%M", cTime) + '.mp4'
                 newVideoPath = tmpPath + '/' + videoFileName
                 print '~~~~~~ Creating {0} ~~~~~~'.format(newVideoPath)
-                imVidCmd = 'ffmpeg -y -hide_banner -loglevel error -pattern_type glob -i ' + pathRegex + ' -c:v mpeg4 ' + newVideoPath
+                imVidCmd = 'ffmpeg -y -hide_banner -loglevel error -framerate 5 -pattern_type glob -i ' + pathRegex + ' -c:v mpeg4 ' + newVideoPath
                 os.system(imVidCmd)
      
                 # prepare output path
@@ -73,7 +71,7 @@ if __name__ == '__main__':
     	        else:
     	            outPath = pubDir + '/' + subPath 
     	        if not os.path.exists(outPath):
-    	            os.makedirs(outPath)
+    	            os.system('mkdir -p {0}'.format(outPath))
                 outVideoPath = outPath + '/' + videoFileName 
                 oldVideoPath = glob.glob(outPath + '/*.mp4')
                 if not oldVideoPath:
@@ -84,7 +82,7 @@ if __name__ == '__main__':
                     oldVideoPath = oldVideoPath[0]
                     concatFile = tmpPath + '/concatList.txt'
                     with open(concatFile, 'w') as f:
-                        f.write('file \'{0}\'\nfile \'{1}\''.format(oldVideoPath, newVideoPath))
+                        f.write('file \'{0}\'\nfile \'{1}\''.format(os.path.abspath(oldVideoPath), os.path.abspath(newVideoPath)))
                     concatCmd = "ffmpeg -y -hide_banner -loglevel error -f concat -i {0} -c copy {1}".format(concatFile, outVideoPath)
                     os.system(concatCmd)
                     os.system('rm {0}'.format(oldVideoPath))
