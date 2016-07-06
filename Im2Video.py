@@ -14,13 +14,13 @@ if __name__ == '__main__':
     )
     parser.add_argument('--privateRooms', default=[], nargs='*', type=str,
                         help='1 or more private rooms each separated by a space')
-    parser.add_argument('--privateDir', default='/share2/privateVideo', type=str,
+    parser.add_argument('--privateDir', default='/nas_share/privateVideo', type=str,
                         help='The directory where the private room video should be stored')
-    parser.add_argument('--inputDir', default='/share2/highResImages', type=str,
+    parser.add_argument('--inputDir', default='/nas_share/highResImages', type=str,
                         help='The directory where high res videos are located')
-    parser.add_argument('--publicDir', default='/share2/video', type=str,
+    parser.add_argument('--publicDir', default='/nas_share/video', type=str,
                         help='The directory where the public room video should be stored')
-    parser.add_argument('--tmpDir', default='/share2/tmp', type=str,
+    parser.add_argument('--tmpDir', default='/nas_share/tmp', type=str,
                         help='The directory where the tmp images should be stored')
     args = parser.parse_args() 
     
