@@ -59,10 +59,11 @@ if __name__ == '__main__':
      
                 # perform video encoding
                 pathRegex = '\"' + tmpPath + '/' + '*.jpg\"'
-                videoFileName = strftime("%H%M", cTime) + '.mp4'
+                videoFileName = room + '_' + strftime("%Y%m%d_%H%M00", cTime) + '_' + cam + '.mp4'
+                # videoFileName = strftime("%H%M", cTime) + '.mp4'
                 newVideoPath = tmpPath + '/' + videoFileName
                 print '~~~~~~ Creating {0} ~~~~~~'.format(newVideoPath)
-                imVidCmd = 'ffmpeg -y -hide_banner -loglevel error -framerate 5 -pattern_type glob -i ' + pathRegex + ' -c:v mpeg4 ' + newVideoPath
+                imVidCmd = 'ffmpeg -y -hide_banner -loglevel warning -framerate 5 -pattern_type glob -i ' + pathRegex + ' -c:v mpeg4 ' + newVideoPath
                 os.system(imVidCmd)
      
                 # prepare output path
@@ -83,6 +84,6 @@ if __name__ == '__main__':
                     concatFile = tmpPath + '/concatList.txt'
                     with open(concatFile, 'w') as f:
                         f.write('file \'{0}\'\nfile \'{1}\''.format(os.path.abspath(oldVideoPath), os.path.abspath(newVideoPath)))
-                    concatCmd = "ffmpeg -y -hide_banner -loglevel error -f concat -i {0} -c copy {1}".format(concatFile, outVideoPath)
+                    concatCmd = "ffmpeg -y -hide_banner -loglevel warning -f concat -i {0} -c copy {1}".format(concatFile, outVideoPath)
                     os.system(concatCmd)
                     os.system('rm {0}'.format(oldVideoPath))
