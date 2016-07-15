@@ -14,13 +14,13 @@ if __name__ == '__main__':
     )
     parser.add_argument('--privateRooms', default=[], nargs='*', type=str,
                         help='1 or more private rooms each separated by a space')
-    parser.add_argument('--privateDir', default='/nas_share/privateVideo', type=str,
+    parser.add_argument('--privateDir', default='/volume1/privateVideo', type=str,
                         help='The directory where the private room video should be stored')
-    parser.add_argument('--inputDir', default='/nas_share/highResImages', type=str,
+    parser.add_argument('--inputDir', default='/volume1/highResImages', type=str,
                         help='The directory where high res videos are located')
-    parser.add_argument('--publicDir', default='/nas_share/video', type=str,
+    parser.add_argument('--publicDir', default='/volume1/video', type=str,
                         help='The directory where the public room video should be stored')
-    parser.add_argument('--tmpDir', default='/nas_share/tmp', type=str,
+    parser.add_argument('--tmpDir', default='/volume1/tmp', type=str,
                         help='The directory where the tmp images should be stored')
     args = parser.parse_args() 
     
@@ -59,11 +59,11 @@ if __name__ == '__main__':
      
                 # perform video encoding
                 pathRegex = '\"' + tmpPath + '/' + '*.jpg\"'
-                videoFileName = room + '_' + cam + '_' + strftime("%Y%m%d_%H%M00", cTime) + '_' + str(i) + '.mp4'
+                videoFileName = room + '_' + cam + '_' + strftime("%Y%m%d_%H%M00", cTime) + '_' + str(i) + '.mkv'
                 # videoFileName = strftime("%H%M", cTime) + '.mp4'
                 newVideoPath = tmpPath + '/' + videoFileName
                 print '~~~~~~ Creating {0} ~~~~~~'.format(newVideoPath)
-                imVidCmd = 'ffmpeg -y -hide_banner -loglevel warning -framerate 5 -pattern_type glob -i ' + pathRegex + ' -c:v mpeg4 ' + newVideoPath
+                imVidCmd = 'ffmpeg -y -hide_banner -loglevel warning -framerate 5 -pattern_type glob -i ' + pathRegex + ' -c:v mjpeg ' + newVideoPath
                 os.system(imVidCmd)
      
                 # prepare output path
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     	        if not os.path.exists(outPath):
     	            os.system('mkdir -p {0}'.format(outPath))
                 outVideoPath = outPath + '/' + videoFileName 
-                oldVideoPath = glob.glob(outPath + '/*.mp4')
+                oldVideoPath = glob.glob(outPath + '/*.mkv')
                 if not oldVideoPath:
                     # no previous file - simply move new file
                     os.system('mv {0} {1}'.format(newVideoPath, outVideoPath))

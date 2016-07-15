@@ -1,5 +1,5 @@
-# copy files from the previous day to videoArchive
-find '/nas_share/video/' -mindepth 1 -type f -mtime -1 -exec cp '{}' '/nas_share/videoArchive/' \;
+# copy files from the previous day to videoArchive without overwriting
+find '/volume1/video/' -mindepth 1 -type f -mtime -1 -exec cp -n '{}' '/volume1/videoArchive/' \;
 
 # remove files older than 3 days 
-find '/nas_share/video/' -mindepth 1 -mtime +3 -exec rm -f '{}' \;
+find '/volume1/video/' -mindepth 1 -mtime +3 -exec rm -f '{}' \;
