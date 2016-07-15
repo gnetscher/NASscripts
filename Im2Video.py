@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # find latest images - not using os.walk to avoid walking all time directories
     for room in os.listdir(inDir):
         for cam in os.listdir(inDir + '/' + room):
-            for tp in [timePath, pTimePath]: 
+            for i, tp in enumerate([timePath, pTimePath]): 
                 # determine input path
                 subPath = room + '/' + cam + '/' + tp
                 inPath = inDir + '/' + subPath 
@@ -59,7 +59,7 @@ if __name__ == '__main__':
      
                 # perform video encoding
                 pathRegex = '\"' + tmpPath + '/' + '*.jpg\"'
-                videoFileName = room + '_' + strftime("%Y%m%d_%H%M00", cTime) + '_' + cam + '.mp4'
+                videoFileName = room + '_' + cam + '_' + strftime("%Y%m%d_%H%M00", cTime) + '_' + str(i) + '.mp4'
                 # videoFileName = strftime("%H%M", cTime) + '.mp4'
                 newVideoPath = tmpPath + '/' + videoFileName
                 print '~~~~~~ Creating {0} ~~~~~~'.format(newVideoPath)
