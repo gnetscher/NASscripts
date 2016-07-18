@@ -29,6 +29,7 @@ if __name__ == '__main__':
     priDir   = args.privateDir
     priRooms = args.privateRooms
     tmpDir   = args.tmpDir
+    imArDir  = '/volume1/highResImageArchive'
 
     cTime    = localtime()
     timePath = strftime("%Y%m%d/%H00", cTime)
@@ -59,8 +60,11 @@ if __name__ == '__main__':
      
                 # perform video encoding
                 pathRegex = '\"' + tmpPath + '/' + '*.jpg\"'
+                imArPath = imArDir + '/' + subPath 
+                if not os.path.exists(imArPath):
+                    os.system('mkdir -p {0}.'format(imArPath))
+                os.system('cp ' + pathRegex + ' ' + imArPath) 
                 videoFileName = room + '_' + cam + '_' + strftime("%Y%m%d_%H%M00", cTime) + '_' + str(i) + '.mkv'
-                # videoFileName = strftime("%H%M", cTime) + '.mp4'
                 newVideoPath = tmpPath + '/' + videoFileName
                 print '~~~~~~ Creating {0} ~~~~~~'.format(newVideoPath)
                 imVidCmd = 'ffmpeg -y -hide_banner -loglevel warning -framerate 5 -pattern_type glob -i ' + pathRegex + ' -c:v mjpeg ' + newVideoPath
