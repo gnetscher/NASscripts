@@ -59,11 +59,12 @@ if __name__ == '__main__':
                     continue
      
                 # perform video encoding
-                pathRegex = '\"' + tmpPath + '/' + '*.jpg\"'
+                tPathRegex = tmpPath + '/' + '*.jpg'
+                pathRegex = '\"' + tPathRegex + '\"'
                 imArPath = imArDir + '/' + subPath 
                 if not os.path.exists(imArPath):
-                    os.system('mkdir -p {0}.'format(imArPath))
-                os.system('cp ' + pathRegex + ' ' + imArPath) 
+                    os.system('mkdir -p {0}'.format(imArPath))
+                os.system('cp ' + tPathRegex + ' ' + imArPath) 
                 videoFileName = room + '_' + cam + '_' + strftime("%Y%m%d_%H%M00", cTime) + '_' + str(i) + '.mkv'
                 newVideoPath = tmpPath + '/' + videoFileName
                 print '~~~~~~ Creating {0} ~~~~~~'.format(newVideoPath)
